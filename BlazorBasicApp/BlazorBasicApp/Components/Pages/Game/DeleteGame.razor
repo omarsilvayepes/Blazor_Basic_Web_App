@@ -1,0 +1,40 @@
+﻿@page "/delete-game/{id:int}"
+@inject IGameService GameService
+@inject NavigationManager NavigationManager
+
+<h3>Delete Game</h3>
+
+<EditForm Model="game" OnSubmit="handleSubmit" FormName="editGame">
+    <label>Video Game Name</label>
+    <InputText @bind-Value="game.Name">@game.Name</InputText>
+    <button type="submit" class="btn btn-danger">Delete</button>
+
+    </EditForm>
+
+    @code {
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    [SupplyParameterFromForm]
+    Game game { get; set; } = new Game { Name = string.Empty };
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // Method for  get the data Game 
+        
+        if (Id != null)
+        {
+            game = await GameService.GetGameById((int)Id);
+        }
+    }
+
+
+
+    async Task handleSubmit()
+    {
+        await GameService.DeleteGame((int)Id);
+        NavigationManager.NavigateTo("/games");
+    }
+}

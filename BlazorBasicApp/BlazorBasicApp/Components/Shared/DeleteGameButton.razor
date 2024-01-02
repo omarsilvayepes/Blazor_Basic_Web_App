@@ -1,0 +1,15 @@
+﻿@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<button @onclick="DeleteGame" class="btn btn-danger">Delete Game</button>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    void DeleteGame()
+    {
+        NavigationManager.NavigateTo($"/delete-game/{Id}");
+    }
+}
